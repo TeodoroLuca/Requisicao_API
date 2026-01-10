@@ -1,4 +1,4 @@
-# 🔗 Consulta de Endereço por CEP – Consumo de API REST
+# 🔗 Buscador de Endereço por CEP – Consumo de API REST - acesse: https://teodoroluca.github.io/Requisicao_API/
 
 Projeto desenvolvido com o objetivo de demonstrar o **consumo de APIs REST**, manipulação de dados no front-end e integração entre informações fornecidas pelo usuário e dados retornados por uma API externa.
 
