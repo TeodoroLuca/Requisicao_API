@@ -7,16 +7,29 @@
 </head>
 <body>
 
-<div class="container">
+<!-- Tela inicial -->
+<div id="bemVindo">
+    <h2>Bem-vindo ao Buscador de Endereço</h2>
+    <p>Clique no botão abaixo para iniciar</p>
+    <button id="btnIniciar">Iniciar</button>
+</div>
+
+<!-- Buscador -->
+<div class="container" id="buscador" style="display: none;">
+
+    <!-- BOTÃO VOLTAR -->
+    <button id="btnVoltar">← Voltar</button>
+
     <h1>BUSCADOR DE ENDEREÇO</h1>
-        <P>DIGITE SOMENTE NÚMEROS</P>
+    <h2>DIGITE SOMENTE NÚMEROS</h2>
+
     <input type="text" id="cep" placeholder="Digite o CEP">
     <input type="text" id="numero" placeholder="Número da residência">
-    <button onclick="buscarCep()">Buscar</button>
+
+    <button id="btnBuscar">Buscar</button>
+    <button id="btnLimpar">Limpar</button>
 
     <div id="resultado"></div>
-    
-
 </div>
 
 <script src="script.js"></script>
