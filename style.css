@@ -15,7 +15,6 @@
     font-family: 'Inter', sans-serif;
 }
 
-/* ===== FUNDO ===== */
 body {
     min-height: 100vh;
     background:
@@ -25,94 +24,50 @@ body {
     justify-content: center;
     align-items: center;
     color: #fff;
+    padding: 20px;
 }
 
-/* ===== GLASS BASE ===== */
-#bemVindo,
-.container {
+/* ===== PADRONIZAÇÃO DOS CONTAINERS (VALIDEZ E BUSCADOR) ===== */
+#paginaValidade,
+.container,
+#bemVindo {
     background: var(--glass);
     backdrop-filter: blur(18px) saturate(160%);
     -webkit-backdrop-filter: blur(18px) saturate(160%);
     border: 1px solid var(--border-glass);
-}
-
-/* ===== BEM-VINDO ===== */
-#bemVindo {
-    padding: 42px;
+    width: 100%;
+    max-width: 420px;
+    padding: 36px;
     border-radius: 20px;
     text-align: center;
     box-shadow:
-        0 0 40px rgba(0,234,255,0.15),
-        0 25px 50px rgba(0,0,0,0.6);
-    animation: fadeIn 0.8s ease;
+        0 0 50px rgba(0,234,255,0.15),
+        0 30px 60px rgba(0,0,0,0.6);
+    animation: slideUp 0.6s ease;
 }
 
-#bemVindo h2 {
-    font-size: 2rem;
+/* ===== TÍTULOS E TEXTOS ===== */
+h1, h2 {
     font-weight: 800;
     letter-spacing: 1px;
     margin-bottom: 10px;
     background: linear-gradient(90deg, var(--primary), var(--accent));
     -webkit-background-clip: text;
-    /* Standard property for broader compatibility */
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-#bemVindo p {
-    opacity: 0.85;
-    margin-bottom: 28px;
-}
+h1 { font-size: 1.6rem; }
+h2 { font-size: 1.4rem; }
 
-/* ===== CONTAINER ===== */
-.container {
-    width: 100%;
-    max-width: 420px;
-    padding: 36px;
-    border-radius: 20px;
-    box-shadow:
-        0 0 50px rgba(0,234,255,0.15),
-        0 30px 60px rgba(0,0,0,0.6);
-    text-align: center;
-    animation: slideUp 0.6s ease;
-}
-
-/* ===== BOTÃO VOLTAR (PEQUENO) ===== */
-#btnVoltar {
-    background: none;
-    border: none;
-    color: var(--primary);
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    padding: 0;
-    margin-bottom: 18px;
-    width: fit-content;
-    align-self: flex-start;
-}
-
-#btnVoltar:hover {
-    text-decoration: underline;
-    opacity: 0.9;
-}
-
-/* ===== TÍTULOS ===== */
-.container h1 {
-    font-size: 1.6rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    margin-bottom: 6px;
-}
-
-.container h2 {
+p {
     font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--accent);
-    margin-bottom: 26px;
+    opacity: 0.85;
+    margin-bottom: 20px;
 }
 
-/* ===== INPUTS ===== */
-.container input {
+/* ===== INPUTS PADRONIZADOS ===== */
+input {
     width: 100%;
     padding: 13px 16px;
     margin-bottom: 16px;
@@ -124,107 +79,64 @@ body {
     transition: border 0.3s, box-shadow 0.3s;
 }
 
-.container input:focus {
+input:focus {
     outline: none;
     border: 1px solid var(--primary);
     box-shadow: 0 0 12px rgba(0,234,255,0.5);
 }
 
-.container input::placeholder {
-    color: rgba(255,255,255,0.85);
+input::placeholder {
+    color: rgba(255,255,255,0.6);
 }
 
 /* ===== BOTÕES ===== */
 button {
-    position: relative;
-    overflow: hidden;
-}
-
-button::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(255,255,255,0.4),
-        transparent
-    );
-    transform: translateX(-100%);
-}
-
-button:hover::after {
-    animation: shine 0.8s ease;
-}
-
-/* ===== INICIAR ===== */
-#btnIniciar {
-    padding: 12px 34px;
-    border-radius: 999px;
-    border: none;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: #001;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 0 20px rgba(0,234,255,0.45);
-}
-
-#btnIniciar:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 35px rgba(0,234,255,0.8);
-}
-
-/* ===== BUSCAR / LIMPAR ===== */
-#btnBuscar,
-#btnLimpar {
     width: 100%;
     padding: 13px;
-    margin-top: 8px;
+    margin-top: 10px;
     border-radius: 14px;
     border: none;
     background: linear-gradient(135deg, var(--accent), var(--primary));
     color: #002;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-#btnBuscar:hover,
-#btnLimpar:hover {
+button:hover {
     transform: translateY(-3px);
     box-shadow: 0 0 30px rgba(0,234,255,0.7);
 }
 
-/* ===== RESULTADO ===== */
-#resultado {
-    margin-top: 26px;
-    font-size: 0.9rem;
+/* Estilo específico para o botão de voltar */
+#btnVoltar {
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-size: 0.85rem;
+    width: auto;
+    margin-bottom: 18px;
+    text-transform: none;
+    box-shadow: none;
 }
 
-#resultado p {
-    padding: 6px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.12);
+#btnVoltar:hover {
+    transform: none;
+    text-decoration: underline;
+    box-shadow: none;
+}
+
+/* ===== AJUSTE DO CAPTCHA ===== */
+.cf-turnstile {
+    margin: 15px 0;
+    display: flex;
+    justify-content: center;
 }
 
 /* ===== ANIMAÇÕES ===== */
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.92); }
-    to { opacity: 1; transform: scale(1); }
-}
-
 @keyframes slideUp {
     from { opacity: 0; transform: translateY(40px); }
     to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes shine {
-    to { transform: translateX(100%); }
-}
-
-/* ===== RESPONSIVO ===== */
-@media (max-width: 480px) {
-    .container, #bemVindo {
-        margin: 20px;
-        padding: 28px;
-    }
 }
