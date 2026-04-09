@@ -1,128 +1,50 @@
-function iniciar() {
-    document.getElementById("btnIniciar")
-        .addEventListener("click", mostrarBuscador);
+document.getElementById('formValidade').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-    document.getElementById("btnBuscar")
-        .addEventListener("click", buscarCep);
+    // Pega o token gerado pelo CAPTCHA
+    const captchaResponse = document.querySelector('[name="cf-turnstile-response"]').value;
 
-    document.getElementById("btnLimpar")
-        .addEventListener("click", limparCampos);
-
-    document.getElementById("btnVoltar")
-        .addEventListener("click", voltarInicio);
-}
-
-window.onload = iniciar;
-
-/* ===== MOSTRAR PAGINA DE VALIDAÇÃO ===== */
-document.getElementById("formValidade").addEventListener("submit", validarUsuario);
-
-function mostrarPaginaValidade() {
-    document.getElementById("paginaValidade").style.display = "block";
-    document.getElementById("bemVindo").style.display = "none";
-    document.getElementById("buscador").style.display = "none";
-}
-
-/* ===== VALIDAR USUÁRIO COM CAPTCHA ===== */
-async function validarUsuario(event) {
-    event.preventDefault();
-
-    const nome = document.getElementById("nome").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const resultado = document.getElementById("mensagemErro");
-
-    // Verifica o CAPTCHA
-    const token = document.querySelector('[name="cf-turnstile-response"]')?.value;
-
-    if (!token) {
-        resultado.style.display = "block";
-        return;
+    if (!captchaResponse) {
+        // Se não houver token, exibe erro
+        document.getElementById('mensagemErro').style.display = 'block';
     } else {
-        resultado.style.display = "none";
+        // Se estiver validado, esconde a tela de validação e mostra o buscador
+        document.getElementById('paginaValidade').style.display = 'none';
+        document.getElementById('buscador').style.display = 'block';
     }
+});
 
-    if (!nome || !email) {
-        resultado.innerHTML = "⚠️ Preencha todos os campos!";
-        resultado.style.display = "block";
+// Botão Voltar
+document.getElementById('btnVoltar').addEventListener('click', function() {
+    location.reload(); // Recarrega a página para resetar o estado e o CAPTCHA
+});
+
+// Lógica de Busca de CEP (Exemplo funcional)
+document.getElementById('btnBuscar').addEventListener('click', async function() {
+    const cep = document.getElementById('cep').value.replace(/\D/g, '');
+    const resultadoDiv = document.getElementById('resultado');
+
+    if (cep.length !== 8) {
+        resultadoDiv.innerHTML = "<p style='color:red'>CEP Inválido</p>";
         return;
     }
-
-    // Caso tudo esteja válido, vamos liberar o botão "Iniciar"
-    document.getElementById("paginaValidade").style.display = "none";
-    document.getElementById("bemVindo").style.display = "block";
-}
-
-/* ===== MOSTRAR BUSCADOR ===== */
-function mostrarBuscador() {
-    document.getElementById("bemVindo").style.display = "none";
-    document.getElementById("buscador").style.display = "block";
-
-    // cria histórico no navegador
-    history.pushState({ tela: "buscador" }, "", "#buscador");
-}
-
-/* ===== VOLTAR PARA INÍCIO ===== */
-function voltarInicio() {
-    history.back(); // usa o histórico do navegador
-}
-
-/* ===== CONTROLE DA SETA DO NAVEGADOR ===== */
-window.onpopstate = function (event) {
-    if (event.state && event.state.tela === "buscador") {
-        document.getElementById("bemVindo").style.display = "none";
-        document.getElementById("buscador").style.display = "block";
-    } else {
-        document.getElementById("buscador").style.display = "none";
-        document.getElementById("bemVindo").style.display = "block";
-        limparCampos();
-    }
-};
-
-/* ===== LIMPAR ===== */
-function limparCampos() {
-    document.getElementById("cep").value = "";
-    document.getElementById("numero").value = "";
-    document.getElementById("resultado").innerHTML = "";
-}
-
-/* ===== BUSCAR CEP ===== */
-async function buscarCep() {
-    const cep = document.getElementById("cep").value.trim();
-    const numero = document.getElementById("numero").value || "S/N";
-    const resultado = document.getElementById("resultado");
-
-    // 🔐 pega o token do Turnstile
-    const token = document.querySelector('[name="cf-turnstile-response"]')?.value;
-
-    if (!token) {
-        resultado.innerHTML = "<p>⚠️ Confirme que você é humano.</p>";
-        return;
-    }
-
-    if (cep.length !== 8 || isNaN(cep)) {
-        resultado.innerHTML = "<p>CEP inválido.</p>";
-        return;
-    }
-
-    resultado.innerHTML = "<p>🔍 Buscando endereço...</p>";
 
     try {
-        const resposta = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-        const dados = await resposta.json();
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const data = await response.json();
 
-        if (dados.erro) {
-            resultado.innerHTML = "<p>❌ CEP não encontrado.</p>";
-            return;
+        if (data.erro) {
+            resultadoDiv.innerHTML = "<p style='color:red'>CEP não encontrado.</p>";
+        } else {
+            resultadoDiv.innerHTML = `
+                <div style="text-align: left; margin-top: 20px; border: 1px solid #ccc; padding: 10px;">
+                    <p><strong>Rua:</strong> ${data.logradouro}</p>
+                    <p><strong>Bairro:</strong> ${data.bairro}</p>
+                    <p><strong>Cidade:</strong> ${data.localidade} - ${data.uf}</p>
+                </div>
+            `;
         }
-
-        resultado.innerHTML = `
-            <p><strong>Logradouro:</strong> ${dados.logradouro}</p>
-            <p><strong>Número:</strong> ${numero}</p>
-            <p><strong>Bairro:</strong> ${dados.bairro}</p>
-            <p><strong>Cidade:</strong> ${dados.localidade}</p>
-            <p><strong>Estado:</strong> ${dados.uf}</p>
-        `;
-    } catch {
-        resultado.innerHTML = "<p>🚨 Erro ao consultar a API.</p>";
+    } catch (error) {
+        resultadoDiv.innerHTML = "<p style='color:red'>Erro ao buscar CEP.</p>";
     }
-}
+});
