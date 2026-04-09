@@ -4,8 +4,8 @@
     --primary: #00eaff;
     --secondary: #0072ff;
     --accent: #00ffcc;
-    --glass: rgba(255,255,255,0.08);
-    --border-glass: rgba(255,255,255,0.18);
+    --glass: rgba(255, 255, 255, 0.08);
+    --border-glass: rgba(255, 255, 255, 0.18);
 }
 
 * {
@@ -15,6 +15,7 @@
     font-family: 'Inter', sans-serif;
 }
 
+/* ===== FUNDO DA PÁGINA ===== */
 body {
     min-height: 100vh;
     background:
@@ -27,10 +28,11 @@ body {
     padding: 20px;
 }
 
-/* ===== PADRONIZAÇÃO DOS CONTAINERS (VALIDEZ E BUSCADOR) ===== */
-#paginaValidade,
-.container,
-#bemVindo {
+/* ===== CARD ESTILO VIDRO (APLICA EM TODAS AS TELAS) ===== */
+.glass-card, 
+.container, 
+#bemVindo, 
+#paginaValidade {
     background: var(--glass);
     backdrop-filter: blur(18px) saturate(160%);
     -webkit-backdrop-filter: blur(18px) saturate(160%);
@@ -41,12 +43,14 @@ body {
     border-radius: 20px;
     text-align: center;
     box-shadow:
-        0 0 50px rgba(0,234,255,0.15),
-        0 30px 60px rgba(0,0,0,0.6);
+        0 0 50px rgba(0, 234, 255, 0.15),
+        0 30px 60px rgba(0, 0, 0, 0.6);
     animation: slideUp 0.6s ease;
+    display: flex;
+    flex-direction: column;
 }
 
-/* ===== TÍTULOS E TEXTOS ===== */
+/* ===== TÍTULOS COM GRADIENTE ===== */
 h1, h2 {
     font-weight: 800;
     letter-spacing: 1px;
@@ -64,6 +68,7 @@ p {
     font-size: 0.9rem;
     opacity: 0.85;
     margin-bottom: 20px;
+    line-height: 1.5;
 }
 
 /* ===== INPUTS PADRONIZADOS ===== */
@@ -73,26 +78,27 @@ input {
     margin-bottom: 16px;
     border-radius: 12px;
     border: 1px solid transparent;
-    background: rgba(255,255,255,0.12);
+    background: rgba(255, 255, 255, 0.12);
     color: #fff;
     font-size: 0.95rem;
-    transition: border 0.3s, box-shadow 0.3s;
+    transition: all 0.3s ease;
 }
 
 input:focus {
     outline: none;
     border: 1px solid var(--primary);
-    box-shadow: 0 0 12px rgba(0,234,255,0.5);
+    box-shadow: 0 0 12px rgba(0, 234, 255, 0.5);
+    background: rgba(255, 255, 255, 0.18);
 }
 
 input::placeholder {
-    color: rgba(255,255,255,0.6);
+    color: rgba(255, 255, 255, 0.5);
 }
 
-/* ===== BOTÕES ===== */
+/* ===== BOTÕES NEON ===== */
 button {
     width: 100%;
-    padding: 13px;
+    padding: 14px;
     margin-top: 10px;
     border-radius: 14px;
     border: none;
@@ -100,35 +106,42 @@ button {
     color: #002;
     font-weight: 700;
     cursor: pointer;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
+    transition: all 0.3s ease;
 }
 
 button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 0 30px rgba(0,234,255,0.7);
+    box-shadow: 0 0 30px rgba(0, 234, 255, 0.7);
+    filter: brightness(1.1);
 }
 
-/* Estilo específico para o botão de voltar */
+button:active {
+    transform: translateY(0);
+}
+
+/* BOTÃO VOLTAR (MAIS DISCRETO) */
 #btnVoltar {
     background: none;
     border: none;
     color: var(--primary);
     font-size: 0.85rem;
-    width: auto;
-    margin-bottom: 18px;
+    width: fit-content;
+    margin-bottom: 15px;
     text-transform: none;
     box-shadow: none;
+    padding: 0;
 }
 
 #btnVoltar:hover {
     transform: none;
     text-decoration: underline;
     box-shadow: none;
+    background: none;
 }
 
-/* ===== AJUSTE DO CAPTCHA ===== */
+/* ===== CAPTCHA CENTRALIZADO ===== */
 .cf-turnstile {
     margin: 15px 0;
     display: flex;
@@ -137,6 +150,20 @@ button:hover {
 
 /* ===== ANIMAÇÕES ===== */
 @keyframes slideUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { 
+        opacity: 0; 
+        transform: translateY(40px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 480px) {
+    .glass-card, .container, #bemVindo, #paginaValidade {
+        padding: 25px;
+        margin: 10px;
+    }
 }
