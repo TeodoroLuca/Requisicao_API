@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscador de Endereço - Middleware de Segurança</title>
-    
+
     <link rel="stylesheet" href="style.css">
 
+    <!-- Cloudflare Turnstile -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 
+    <!-- 🔐 VALIDAÇÃO (CAPTCHA + DADOS) -->
     <div id="paginaValidade" class="glass-card">
         <h2>Valide seu acesso</h2>
         <p>Resolva o CAPTCHA para liberar o buscador.</p>
@@ -24,11 +26,19 @@
             <button type="submit">Validar e Entrar</button>
         </form>
 
-        <p id="mensagemErro" style="color: #ff4d4d; display: none; margin-top: 15px; font-weight: bold;">⚠️ Resolva o CAPTCHA para continuar.</p>
+        <p id="mensagemErro"
+           style="color:#ff4d4d; display:none; margin-top:15px; font-weight:bold;">
+           ⚠️ Resolva o CAPTCHA para continuar.
+        </p>
     </div>
 
-    <div id="buscador" class="container glass-card" style="display: none;">
-        <button id="btnVoltar" style="width: auto; background: none; color: var(--primary); text-transform: none;">← Sair</button>
+    <!-- 🔎 BUSCADOR -->
+    <div id="buscador" class="container glass-card" style="display:none;">
+
+        <button id="btnVoltar"
+                style="width:auto; background:none; color:var(--primary);">
+            ← Sair
+        </button>
 
         <h1>BUSCADOR DE CEP</h1>
         <h2>DIGITE SOMENTE NÚMEROS</h2>
@@ -37,13 +47,14 @@
         <input type="text" id="numero" placeholder="Número da residência">
 
         <button id="btnBuscar">Buscar Endereço</button>
-        
-        <button id="btnLimpar" style="background: rgba(255,255,255,0.1); color: #fff; margin-top: 10px;">Limpar</button>
+        <button id="btnLimpar"
+                style="background:rgba(255,255,255,0.1); margin-top:10px;">
+            Limpar
+        </button>
 
         <div id="resultado"></div>
     </div>
 
     <script src="script.js"></script>
-
 </body>
 </html>
