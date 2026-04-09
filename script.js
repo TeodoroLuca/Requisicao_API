@@ -1,19 +1,37 @@
+let captchaValidado = false;
+
+// 🔐 CALLBACK DO TURNSTILE (OBRIGATÓRIO)
+function onCaptchaSuccess(token) {
+    captchaValidado = true;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 
-    // 🔐 VALIDAÇÃO COM CAPTCHA
+    // 🔐 VALIDAÇÃO DO FORMULÁRIO
     document.getElementById('formValidade').addEventListener('submit', function (e) {
         e.preventDefault();
 
-        const captchaResponse =
-            document.querySelector('[name="cf-turnstile-response"]')?.value;
+        const nome = document.getElementById('nome').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const erro = document.getElementById('mensagemErro');
 
-        if (!captchaResponse) {
-            document.getElementById('mensagemErro').style.display = 'block';
+        // CAPTCHA NÃO VALIDADO
+        if (!captchaValidado) {
+            erro.style.display = "block";
+            erro.innerText = "⚠️ Resolva o CAPTCHA para continuar.";
             return;
         }
 
-        document.getElementById('mensagemErro').style.display = 'none';
+        // CAMPOS OBRIGATÓRIOS
+        if (!nome || !email) {
+            erro.style.display = "block";
+            erro.innerText = "⚠️ Preencha todos os campos.";
+            return;
+        }
 
+        erro.style.display = "none";
+
+        // ✔️ LIBERA O BUSCADOR
         document.getElementById('paginaValidade').style.display = 'none';
         document.getElementById('buscador').style.display = 'flex';
     });
@@ -25,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let numero = document.getElementById('numero').value.trim();
         const resultadoDiv = document.getElementById('resultado');
 
-        // ✔️ CORREÇÃO S/N
+        // S/N AUTOMÁTICO
         if (numero === "") {
             numero = "S/N";
         }
@@ -36,8 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        resultadoDiv.innerHTML =
-            "<p>🔍 Buscando endereço...</p>";
+        resultadoDiv.innerHTML = "<p>🔍 Buscando endereço...</p>";
 
         try {
             const response =
@@ -64,55 +81,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             `;
 
-        } catch (error) {// 1. MIDDLEWARE DE VALIDAÇÃO (CONTROLE DE ACESSO)
-document.getElementById('formValidade').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    // Captura o token do Turnstile
-    const captchaResponse = document.querySelector('[name="cf-turnstile-response"]').value;
-
-    if (!captchaResponse) {
-        document.getElementById('mensagemErro').style.display = 'block';
-    } else {
-        // Sucesso: Libera o acesso para o buscador
-        document.getElementById('paginaValidade').style.display = 'none';
-        document.getElementById('buscador').style.display = 'flex';
-    }
-});
-
-// 2. BUSCA DE CEP E EXIBIÇÃO DO NÚMERO
-document.getElementById('btnBuscar').addEventListener('click', async function() {
-    const cep = document.getElementById('cep').value.replace(/\D/g, '');
-    const numDigitado = document.getElementById('numero').value; // <--- CAPTURA O NÚMERO AQUI
-    const resultadoDiv = document.getElementById('resultado');
-
-    if (cep.length !== 8) {
-        resultadoDiv.innerHTML = "<p style='color:#ff4d4d'>CEP inválido!</p>";
-        return;
-    }
-
-    try {
-        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-        const data = await response.json();
-
-        if (data.erro) {
-            resultadoDiv.innerHTML = "<p style='color:#ff4d4d'>CEP não encontrado.</p>";
-        } else {
-            // AQUI É ONDE O NÚMERO É "PRINTADO" NA TELA
-            resultadoDiv.innerHTML = `
-
+        } catch (error) {
             resultadoDiv.innerHTML =
                 "<p style='color:#ff4d4d'>Erro na consulta.</p>";
         }
     });
 
-    // 🧹 LIMPAR (100% FUNCIONANDO)
+    // 🧹 LIMPAR
     document.getElementById('btnLimpar').addEventListener('click', function () {
-
         document.getElementById('cep').value = "";
         document.getElementById('numero').value = "";
         document.getElementById('resultado').innerHTML = "";
-
     });
 
     // 🚪 SAIR
