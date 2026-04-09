@@ -1,28 +1,27 @@
-// 1. GERENCIAMENTO DE TELAS E VALIDAÇÃO
+// 1. MIDDLEWARE DE VALIDAÇÃO (CONTROLE DE ACESSO)
 document.getElementById('formValidade').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    // Pega o token do Cloudflare
+    // Captura o token do Turnstile
     const captchaResponse = document.querySelector('[name="cf-turnstile-response"]').value;
 
     if (!captchaResponse) {
-        // Se não resolveu o CAPTCHA
         document.getElementById('mensagemErro').style.display = 'block';
     } else {
-        // Se validou, esconde a tela de validação e mostra o buscador
+        // Sucesso: Libera o acesso para o buscador
         document.getElementById('paginaValidade').style.display = 'none';
-        document.getElementById('buscador').style.display = 'flex'; // Usamos flex para manter o estilo do CSS
+        document.getElementById('buscador').style.display = 'flex';
     }
 });
 
-// 2. LÓGICA DO BUSCADOR DE CEP
+// 2. BUSCA DE CEP E EXIBIÇÃO DO NÚMERO
 document.getElementById('btnBuscar').addEventListener('click', async function() {
-    const cep = document.getElementById('cep').value.replace(/\D/g, ''); // Remove letras
-    const numero = document.getElementById('numero').value;
+    const cep = document.getElementById('cep').value.replace(/\D/g, '');
+    const numDigitado = document.getElementById('numero').value; // <--- CAPTURA O NÚMERO AQUI
     const resultadoDiv = document.getElementById('resultado');
 
     if (cep.length !== 8) {
-        resultadoDiv.innerHTML = "<p style='color:#ff4d4d'>CEP inválido! Digite 8 números.</p>";
+        resultadoDiv.innerHTML = "<p style='color:#ff4d4d'>CEP inválido!</p>";
         return;
     }
 
@@ -33,30 +32,34 @@ document.getElementById('btnBuscar').addEventListener('click', async function() 
         if (data.erro) {
             resultadoDiv.innerHTML = "<p style='color:#ff4d4d'>CEP não encontrado.</p>";
         } else {
-            // Exibe o endereço e o número digitado
+            // AQUI É ONDE O NÚMERO É "PRINTADO" NA TELA
             resultadoDiv.innerHTML = `
-                <div style="text-align: left; margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
-                    <p><strong>Logradouro:</strong> ${data.logradouro}</p>
-                    <p><strong>Número:</strong> ${numero || 'S/N'}</p>
-                    <p><strong>Bairro:</strong> ${data.bairro}</p>
-                    <p><strong>Cidade:</strong> ${data.localidade} - ${data.uf}</p>
+                <div style="text-align: left; margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; border: 1px solid rgba(255,255,255,0.2);">
+                    <p style="margin: 5px 0;"><strong>Rua:</strong> ${data.logradouro}</p>
+                    <p style="margin: 5px 0;"><strong>Número:</strong> ${numDigitado || 'Não informado'}</p>
+                    <p style="margin: 5px 0;"><strong>Bairro:</strong> ${data.bairro}</p>
+                    <p style="margin: 5px 0;"><strong>Cidade:</strong> ${data.localidade} - ${data.uf}</p>
                 </div>
             `;
         }
     } catch (error) {
-        resultadoDiv.innerHTML = "<p style='color:#ff4d4d'>Erro ao conectar no servidor.</p>";
+        resultadoDiv.innerHTML = "<p style='color:#ff4d4d'>Erro na consulta.</p>";
     }
 });
 
-// 3. FUNÇÃO DO BOTÃO LIMPAR (CORRIGIDO)
+// 3. BOTÃO LIMPAR (AGORA FUNCIONANDO 100%)
 document.getElementById('btnLimpar').addEventListener('click', function() {
+    // Limpa os campos de texto
     document.getElementById('cep').value = "";
     document.getElementById('numero').value = "";
+    
+    // Limpa a div de resultado (remove o endereço printado)
     document.getElementById('resultado').innerHTML = "";
+    
+    console.log("Campos limpos com sucesso!");
 });
 
-// 4. BOTÃO VOLTAR / SAIR
+// 4. BOTÃO VOLTAR (RESET TOTAL)
 document.getElementById('btnVoltar').addEventListener('click', function() {
-    // Recarrega a página para voltar ao estado inicial de segurança
-    location.reload();
+    location.reload(); 
 });
