@@ -2,45 +2,31 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta de CEP</title>
     <link rel="stylesheet" href="style.css">
-
-    <!-- Script do Turnstile -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 
-<!-- Página de Validação -->
 <div id="paginaValidade">
     <h2>Valide seu acesso</h2>
-    <p>Preencha seus dados e confirme que você não é um robô.</p>
+    <p>Confirme que você não é um robô para continuar.</p>
 
-    <!-- Formulário de Validação -->
     <form id="formValidade">
         <input type="text" id="nome" placeholder="Seu nome" required>
         <input type="email" id="email" placeholder="Seu e-mail" required>
 
-        <!-- CAPTCHA Turnstile -->
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAAC3Y2IQ1RTJpOBUp"></div>
+        <div id="captcha-container" class="cf-turnstile" data-sitekey="0x4AAAAAAC3Y2IQ1RTJpOBUp"></div>
 
-        <button type="submit" id="btnValidar">Validar</button>
+        <button type="submit" id="btnValidar">Validar e Entrar</button>
     </form>
 
-    <p id="mensagemErro" style="color: red; display: none;">⚠️ Você precisa resolver o CAPTCHA para continuar.</p>
+    <p id="mensagemErro" style="color: red; display: none; margin-top: 10px;">⚠️ Por favor, resolva o CAPTCHA.</p>
 </div>
 
-<!-- Tela inicial (buscador) -->
-<div id="bemVindo" style="display: none;">
-    <h2>Bem-vindo ao Buscador de Endereço</h2>
-    <p>Clique no botão abaixo para iniciar</p>
-    <button id="btnIniciar">Iniciar</button>
-</div>
-
-<!-- Buscador -->
 <div class="container" id="buscador" style="display: none;">
-
-    <!-- BOTÃO VOLTAR -->
-    <button id="btnVoltar">← Voltar</button>
+    <button id="btnVoltar">← Sair</button>
 
     <h1>BUSCADOR DE ENDEREÇO</h1>
     <h2>DIGITE SOMENTE NÚMEROS</h2>
@@ -48,10 +34,7 @@
     <input type="text" id="cep" placeholder="Digite o CEP">
     <input type="text" id="numero" placeholder="Número da residência">
 
-    <!-- CAPTCHA MODERNO -->
-    <div class="cf-turnstile" data-sitekey="0x4AAAAAAC3Y2IQ1RTJpOBUp"></div>
-
-    <button id="btnBuscar">Buscar</button>
+    <button id="btnBuscar">Buscar CEP</button>
     <button id="btnLimpar">Limpar</button>
 
     <div id="resultado"></div>
