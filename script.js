@@ -14,6 +14,44 @@ function iniciar() {
 
 window.onload = iniciar;
 
+/* ===== MOSTRAR PAGINA DE VALIDAÇÃO ===== */
+document.getElementById("formValidade").addEventListener("submit", validarUsuario);
+
+function mostrarPaginaValidade() {
+    document.getElementById("paginaValidade").style.display = "block";
+    document.getElementById("bemVindo").style.display = "none";
+    document.getElementById("buscador").style.display = "none";
+}
+
+/* ===== VALIDAR USUÁRIO COM CAPTCHA ===== */
+async function validarUsuario(event) {
+    event.preventDefault();
+
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const resultado = document.getElementById("mensagemErro");
+
+    // Verifica o CAPTCHA
+    const token = document.querySelector('[name="cf-turnstile-response"]')?.value;
+
+    if (!token) {
+        resultado.style.display = "block";
+        return;
+    } else {
+        resultado.style.display = "none";
+    }
+
+    if (!nome || !email) {
+        resultado.innerHTML = "⚠️ Preencha todos os campos!";
+        resultado.style.display = "block";
+        return;
+    }
+
+    // Caso tudo esteja válido, vamos liberar o botão "Iniciar"
+    document.getElementById("paginaValidade").style.display = "none";
+    document.getElementById("bemVindo").style.display = "block";
+}
+
 /* ===== MOSTRAR BUSCADOR ===== */
 function mostrarBuscador() {
     document.getElementById("bemVindo").style.display = "none";
@@ -52,6 +90,14 @@ async function buscarCep() {
     const cep = document.getElementById("cep").value.trim();
     const numero = document.getElementById("numero").value || "S/N";
     const resultado = document.getElementById("resultado");
+
+    // 🔐 pega o token do Turnstile
+    const token = document.querySelector('[name="cf-turnstile-response"]')?.value;
+
+    if (!token) {
+        resultado.innerHTML = "<p>⚠️ Confirme que você é humano.</p>";
+        return;
+    }
 
     if (cep.length !== 8 || isNaN(cep)) {
         resultado.innerHTML = "<p>CEP inválido.</p>";
