@@ -65,4 +65,4 @@ O projeto implementa uma função que atua como um middleware, interceptando a e
 Desenvolvido por **Lucas Teodoro**.
 
 ---
-*Este repositório serve como demonstração de boas práticas em arquitetura cliente-side, desacoplamento de código e manipulação de fluxos assíncronos.*
+
