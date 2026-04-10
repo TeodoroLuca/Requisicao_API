@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🔥 MIDDLEWARE DE VALIDAÇÃO DO CAPTCHA
+// MIDDLEWARE DE VALIDAÇÃO DO CAPTCHA
 async function validarCaptcha(req, res, next) {
     const token = req.body.token;
 
@@ -29,14 +29,14 @@ async function validarCaptcha(req, res, next) {
             return res.status(403).json({ erro: 'Captcha inválido' });
         }
 
-        next(); // ✅ Libera a requisição
+        next(); // Libera a requisição
 
     } catch (error) {
         return res.status(500).json({ erro: 'Erro ao validar captcha' });
     }
 }
 
-// 🌐 ROTA COM MIDDLEWARE
+// ROTA COM MIDDLEWARE
 app.post('/buscar-cep', validarCaptcha, async (req, res) => {
     const { cep, numero } = req.body;
 
@@ -60,7 +60,7 @@ app.post('/buscar-cep', validarCaptcha, async (req, res) => {
     }
 });
 
-// 🚀 INICIAR SERVIDOR
+// INICIAR SERVIDOR
 app.listen(process.env.PORT, () => {
     console.log(`Servidor rodando em http://localhost:${process.env.PORT}`);
 });
