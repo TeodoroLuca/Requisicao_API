@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Buscador de CEP</title>
+
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
@@ -14,12 +15,15 @@
         <input type="text" placeholder="Nome" required>
         <input type="email" placeholder="Email" required>
 
-        <div class="cf-turnstile" data-sitekey="SEU_SITE_KEY"></div>
+        <!-- SUA SITE KEY -->
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAC3Y2IQ1RTJpOBUp"></div>
 
         <button type="submit">Entrar</button>
     </form>
 
-    <p id="mensagemErro" style="display:none;color:red;">Resolva o captcha</p>
+    <p id="mensagemErro" style="display:none;color:red;">
+        Resolva o captcha
+    </p>
 </div>
 
 <div id="buscador" style="display:none;">
