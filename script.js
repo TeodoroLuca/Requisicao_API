@@ -1,24 +1,28 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     // ================================
-    // ESTADO GLOBAL DO CAPTCHA
+    // ESTADO GLOBAL
     // ================================
-    let captchaValido = false;
     let turnstileToken = null;
 
-    // Callback oficial do Turnstile
-    window.onTurnstileSuccess = function (token) {
-        turnstileToken = token;
-        captchaValido = true;
-    };
+    // ================================
+    // RENDERIZA O CAPTCHA (FORÇADO)
+    // ================================
+    turnstile.render('#turnstile-container', {
+        sitekey: '0x4AAAAAAC3Y2IQ1RTJpOBUp',
+        theme: 'light',
+        size: 'normal',
+        callback: function (token) {
+            turnstileToken = token;
+        }
+    });
 
     // ================================
     // MIDDLEWARE
     // ================================
     function validarRequisicao(cep) {
 
-        // 🔒 agora valida de verdade o CAPTCHA
-        if (!captchaValido || !turnstileToken) {
+        if (!turnstileToken) {
             throw new Error("Valide o CAPTCHA antes de continuar.");
         }
 
@@ -28,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ================================
-    // 1. VALIDAÇÃO E ENTRADA
+    // VALIDAÇÃO DE ENTRADA
     // ================================
     document.getElementById('formValidade').addEventListener('submit', function (e) {
         e.preventDefault();
@@ -37,18 +41,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!turnstileToken) {
             erro.style.display = 'block';
-            erro.innerText = "⚠️ Resolva o CAPTCHA corretamente.";
             return;
         }
 
         erro.style.display = 'none';
 
         document.getElementById('paginaValidade').style.display = 'none';
-        document.getElementById('buscador').style.display = 'flex';
+        document.getElementById('buscador').style.display = 'block';
     });
 
     // ================================
-    // 2. BUSCAR CEP (MIDDLEWARE APLICADO)
+    // BUSCAR CEP
     // ================================
     document.getElementById('btnBuscar').addEventListener('click', async function () {
 
@@ -69,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             resultadoDiv.innerHTML = `
-                <div style="text-align: left; margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                <div style="margin-top:20px; padding:15px; background:rgba(255,255,255,0.1); border-radius:10px;">
                     <p><strong>Logradouro:</strong> ${data.logradouro}</p>
                     <p><strong>Número:</strong> ${numero || 'S/N'}</p>
                     <p><strong>Bairro:</strong> ${data.bairro}</p>
@@ -78,12 +81,12 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
 
         } catch (error) {
-            resultadoDiv.innerHTML = `<p style='color:#ff4d4d'>${error.message}</p>`;
+            resultadoDiv.innerHTML = `<p style="color:#ff4d4d">${error.message}</p>`;
         }
     });
 
     // ================================
-    // 3. LIMPAR
+    // LIMPAR
     // ================================
     document.getElementById('btnLimpar').addEventListener('click', function () {
         document.getElementById('cep').value = "";
@@ -92,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // ================================
-    // 4. SAIR
+    // SAIR
     // ================================
     document.getElementById('btnVoltar').addEventListener('click', function () {
         location.reload();
