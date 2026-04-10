@@ -3,47 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscador de CEP</title>
-
+    <title>Buscador de Endereço - Middleware de Segurança</title>
+    
     <link rel="stylesheet" href="style.css">
 
-    <!-- Cloudflare Turnstile -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 
-<div id="paginaValidade" class="glass-card">
-    <h2>Valide seu acesso</h2>
-    <p>Preencha e confirme que não é um robô.</p>
+    <div id="paginaValidade" class="glass-card">
+        <h2>Valide seu acesso</h2>
+        <p>Resolva o CAPTCHA para liberar o buscador.</p>
 
-    <form id="formValidade">
-        <input type="text" id="nome" placeholder="Seu nome" required>
-        <input type="email" id="email" placeholder="Seu e-mail" required>
+        <form id="formValidade">
+            <input type="text" id="nome" placeholder="Seu nome" required>
+            <input type="email" id="email" placeholder="Seu e-mail" required>
 
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAAC3Y2IQ1RTJpOBUp"></div>
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAC3Y2IQ1RTJpOBUp"></div>
 
-        <button type="submit">Entrar</button>
-    </form>
+            <button type="submit">Validar e Entrar</button>
+        </form>
 
-    <p id="mensagemErro">⚠️ Resolva o captcha</p>
-</div>
+        <p id="mensagemErro" style="color: #ff4d4d; display: none; margin-top: 15px; font-weight: bold;">⚠️ Resolva o CAPTCHA para continuar.</p>
+    </div>
 
-<div id="buscador" class="glass-card" style="display:none;">
-    <button id="btnVoltar">← Sair</button>
+    <div id="buscador" class="container glass-card" style="display: none;">
+        <button id="btnVoltar" style="width: auto; background: none; color: var(--primary); text-transform: none;">← Sair</button>
 
-    <h1>BUSCADOR DE CEP</h1>
-    <h2>Digite somente números</h2>
+        <h1>BUSCADOR DE CEP</h1>
+        <h2>DIGITE SOMENTE NÚMEROS</h2>
 
-    <input type="text" id="cep" placeholder="Digite o CEP" maxlength="8">
-    <input type="text" id="numero" placeholder="Número da residência">
+        <input type="text" id="cep" placeholder="Digite o CEP (Ex: 01001000)" maxlength="8">
+        <input type="text" id="numero" placeholder="Número da residência">
 
-    <button id="btnBuscar">Buscar Endereço</button>
-    <button id="btnLimpar" class="btn-secundario">Limpar</button>
+        <button id="btnBuscar">Buscar Endereço</button>
+        
+        <button id="btnLimpar" style="background: rgba(255,255,255,0.1); color: #fff; margin-top: 10px;">Limpar</button>
 
-    <div id="resultado"></div>
-</div>
+        <div id="resultado"></div>
+    </div>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
