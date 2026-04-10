@@ -1,14 +1,7 @@
 # 🔗 Buscador de Endereço por CEP – Middleware & API REST
 
-<div align="center">
+[![Acesse o Projeto](https://img.shields.io/badge/Acessar%20Projeto-Clique%20Aqui-blue?style=for-the-badge&logo=github)](https://teodoroluca.github.io/Requisicao_API/)
 
-<a href="https://teodoroluca.github.io/Requisicao_API/" target="_blank">
-  ![Acessar Projeto Ao Vivo](https://img.shields.io/badge/Acessar%20Projeto%20Ao%20Vivo-success?style=for-the-badge&logo=googledataproc&logoColor=white)
-</a>
-
-<br><br>
-
-![Status](https://img.shields.io/badge/Status-Conclu%C3%ADdo-success?style=flat-square)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=flat-square&logo=javascript&logoColor=%23F7DF1E)
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=flat-square&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=flat-square&logo=css3&logoColor=white)
