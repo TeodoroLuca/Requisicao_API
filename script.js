@@ -1,97 +1,78 @@
-// 1. VALIDAÇÃO COM BACKEND (MIDDLEWARE REAL)
-document.getElementById('formValidade').addEventListener('submit', async function(e) {
+// VALIDAR CAPTCHA
+document.getElementById('formValidade').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const mensagemErro = document.getElementById('mensagemErro');
-    mensagemErro.style.display = 'none';
-
-    // Token do Turnstile
     const token = document.querySelector('[name="cf-turnstile-response"]').value;
+    const erro = document.getElementById('mensagemErro');
+
+    erro.style.display = 'none';
 
     if (!token) {
-        mensagemErro.style.display = 'block';
+        erro.style.display = 'block';
         return;
     }
 
     try {
-        const response = await fetch('http://localhost:3000/validar-captcha', {
+        const res = await fetch('http://localhost:3000/validar-captcha', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token })
         });
 
-        const data = await response.json();
+        if (!res.ok) throw new Error();
 
-        if (!response.ok) {
-            mensagemErro.style.display = 'block';
-            return;
-        }
-
-        // Libera o buscador
         document.getElementById('paginaValidade').style.display = 'none';
-        document.getElementById('buscador').style.display = 'flex';
+        document.getElementById('buscador').style.display = 'block';
 
-    } catch (error) {
-        mensagemErro.style.display = 'block';
+    } catch {
+        erro.style.display = 'block';
     }
 });
 
 
-// 2. BUSCA DE CEP VIA BACKEND
-document.getElementById('btnBuscar').addEventListener('click', async function() {
+// BUSCAR CEP
+document.getElementById('btnBuscar').addEventListener('click', async () => {
     const cep = document.getElementById('cep').value.replace(/\D/g, '');
     const numero = document.getElementById('numero').value;
-    const resultadoDiv = document.getElementById('resultado');
+    const resultado = document.getElementById('resultado');
 
-    resultadoDiv.innerHTML = "";
+    const token = document.querySelector('[name="cf-turnstile-response"]').value;
 
     if (cep.length !== 8) {
-        resultadoDiv.innerHTML = "<p style='color:#ff4d4d'>CEP inválido! Digite 8 números.</p>";
+        resultado.innerHTML = "CEP inválido";
         return;
     }
 
     try {
-        const response = await fetch('http://localhost:3000/buscar-cep', {
+        const res = await fetch('http://localhost:3000/buscar-cep', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ cep, numero })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cep, numero, token })
         });
 
-        const data = await response.json();
+        const data = await res.json();
 
-        if (!response.ok) {
-            resultadoDiv.innerHTML = `<p style='color:#ff4d4d'>${data.erro}</p>`;
+        if (!res.ok) {
+            resultado.innerHTML = data.erro;
             return;
         }
 
-        resultadoDiv.innerHTML = `
-            <div style="text-align: left; margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
-                <p><strong>Logradouro:</strong> ${data.logradouro}</p>
-                <p><strong>Número:</strong> ${data.numero}</p>
-                <p><strong>Bairro:</strong> ${data.bairro}</p>
-                <p><strong>Cidade:</strong> ${data.cidade} - ${data.uf}</p>
-            </div>
+        resultado.innerHTML = `
+            <p>${data.logradouro}</p>
+            <p>${data.numero}</p>
+            <p>${data.bairro}</p>
+            <p>${data.cidade} - ${data.uf}</p>
         `;
 
-    } catch (error) {
-        resultadoDiv.innerHTML = "<p style='color:#ff4d4d'>Erro ao conectar com o servidor.</p>";
+    } catch {
+        resultado.innerHTML = "Erro no servidor";
     }
 });
 
 
-// 3. BOTÃO LIMPAR
-document.getElementById('btnLimpar').addEventListener('click', function() {
-    document.getElementById('cep').value = "";
-    document.getElementById('numero').value = "";
-    document.getElementById('resultado').innerHTML = "";
-});
-
-
-// 4. BOTÃO VOLTAR / SAIR
-document.getElementById('btnVoltar').addEventListener('click', function() {
-    location.reload();
+// LIMPAR
+document.getElementById('btnLimpar').addEventListener('click', () => {
+    document.getElementById('cep').value = '';
+    document.getElementById('numero').value = '';
+    document.getElementById('resultado').innerHTML = '';
 });
