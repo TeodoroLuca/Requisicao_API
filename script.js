@@ -1,15 +1,24 @@
-// Aguarda o carregamento do DOM
 document.addEventListener("DOMContentLoaded", function () {
 
-    // Estado global do captcha
+    // ================================
+    // ESTADO GLOBAL DO CAPTCHA
+    // ================================
     let captchaValido = false;
+    let turnstileToken = null;
+
+    // Callback oficial do Turnstile
+    window.onTurnstileSuccess = function (token) {
+        turnstileToken = token;
+        captchaValido = true;
+    };
 
     // ================================
     // MIDDLEWARE
     // ================================
-    // Função responsável por validar regras antes da requisição
     function validarRequisicao(cep) {
-        if (!captchaValido) {
+
+        // 🔒 agora valida de verdade o CAPTCHA
+        if (!captchaValido || !turnstileToken) {
             throw new Error("Valide o CAPTCHA antes de continuar.");
         }
 
@@ -19,29 +28,30 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ================================
-    // 1. GERENCIAMENTO DE TELAS E VALIDAÇÃO
+    // 1. VALIDAÇÃO E ENTRADA
     // ================================
-    document.getElementById('formValidade').addEventListener('submit', function(e) {
+    document.getElementById('formValidade').addEventListener('submit', function (e) {
         e.preventDefault();
 
-        // Pega o token do Cloudflare
-        const captchaResponse = document.querySelector('[name="cf-turnstile-response"]')?.value;
+        const erro = document.getElementById('mensagemErro');
 
-        if (!captchaResponse) {
-            document.getElementById('mensagemErro').style.display = 'block';
-        } else {
-            captchaValido = true; // marca como validado
-
-            document.getElementById('mensagemErro').style.display = 'none';
-            document.getElementById('paginaValidade').style.display = 'none';
-            document.getElementById('buscador').style.display = 'flex';
+        if (!turnstileToken) {
+            erro.style.display = 'block';
+            erro.innerText = "⚠️ Resolva o CAPTCHA corretamente.";
+            return;
         }
+
+        erro.style.display = 'none';
+
+        document.getElementById('paginaValidade').style.display = 'none';
+        document.getElementById('buscador').style.display = 'flex';
     });
 
     // ================================
-    // 2. LÓGICA DO BUSCADOR DE CEP
+    // 2. BUSCAR CEP (MIDDLEWARE APLICADO)
     // ================================
-    document.getElementById('btnBuscar').addEventListener('click', async function() {
+    document.getElementById('btnBuscar').addEventListener('click', async function () {
+
         const cep = document.getElementById('cep').value.replace(/\D/g, '');
         const numero = document.getElementById('numero').value;
         const resultadoDiv = document.getElementById('resultado');
@@ -49,9 +59,6 @@ document.addEventListener("DOMContentLoaded", function () {
         resultadoDiv.innerHTML = "";
 
         try {
-            // ================================
-            // APLICAÇÃO DO MIDDLEWARE
-            // ================================
             validarRequisicao(cep);
 
             const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
@@ -76,18 +83,18 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // ================================
-    // 3. FUNÇÃO DO BOTÃO LIMPAR
+    // 3. LIMPAR
     // ================================
-    document.getElementById('btnLimpar').addEventListener('click', function() {
+    document.getElementById('btnLimpar').addEventListener('click', function () {
         document.getElementById('cep').value = "";
         document.getElementById('numero').value = "";
         document.getElementById('resultado').innerHTML = "";
     });
 
     // ================================
-    // 4. BOTÃO VOLTAR / SAIR
+    // 4. SAIR
     // ================================
-    document.getElementById('btnVoltar').addEventListener('click', function() {
+    document.getElementById('btnVoltar').addEventListener('click', function () {
         location.reload();
     });
 
