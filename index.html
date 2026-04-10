@@ -4,16 +4,20 @@
     <meta charset="UTF-8">
     <title>Buscador de CEP</title>
 
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Cloudflare Turnstile -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 
-<div id="paginaValidade">
+<div id="paginaValidade" class="glass-card">
     <h2>Valide seu acesso</h2>
+    <p>Preencha e confirme que não é um robô.</p>
 
     <form id="formValidade">
-        <input type="text" placeholder="Nome" required>
-        <input type="email" placeholder="Email" required>
+        <input type="text" id="nome" placeholder="Seu nome" required>
+        <input type="email" id="email" placeholder="Seu e-mail" required>
 
         <!-- SUA SITE KEY -->
         <div class="cf-turnstile" data-sitekey="0x4AAAAAAC3Y2IQ1RTJpOBUp"></div>
@@ -26,10 +30,12 @@
     </p>
 </div>
 
-<div id="buscador" style="display:none;">
-    <h1>Buscar CEP</h1>
+<div id="buscador" class="glass-card" style="display:none;">
+    <button id="btnVoltar">← Sair</button>
 
-    <input type="text" id="cep" placeholder="CEP">
+    <h1>BUSCADOR DE CEP</h1>
+
+    <input type="text" id="cep" placeholder="Digite o CEP" maxlength="8">
     <input type="text" id="numero" placeholder="Número">
 
     <button id="btnBuscar">Buscar</button>
