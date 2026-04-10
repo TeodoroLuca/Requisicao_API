@@ -1,64 +1,102 @@
-# 🔗 Buscador de Endereço por CEP – Middleware & API REST
+🔗 Buscador de Endereço por CEP – Middleware & API REST
 
-[![Link do Projeto](https://img.shields.io/badge/Acessar_Projeto-Clique_Aqui-00eaff?style=for-the-badge&logo=google-chrome&logoColor=white)](https://teodoroluca.github.io/Requisicao_API/)
+""Link do Projeto" (https://img.shields.io/badge/Acessar_Projeto-Clique_Aqui-00eaff?style=for-the-badge&logo=google-chrome&logoColor=white)" (https://teodoroluca.github.io/Requisicao_API/)
 
-Projeto desenvolvido para demonstrar o **consumo de APIs REST**, manipulação avançada do DOM e a implementação de **Middleware de Segurança** no front-end para controle de fluxo e integridade de dados.
-
----
-
-## 📌 Sobre o Projeto
-
-A aplicação permite a consulta de endereços de forma dinâmica e segura. O diferencial técnico deste projeto é a separação de estados da aplicação, onde o acesso às funcionalidades principais é mediado por uma camada de verificação obrigatória.
-
-O **número do imóvel** é capturado manualmente e integrado aos dados retornados pela **API ViaCEP**, simulando um fluxo real de sistemas de cadastro ou checkouts de e-commerce.
+Projeto desenvolvido para demonstrar o consumo de APIs REST, manipulação avançada do DOM e a implementação de Middleware de Segurança real (Back-end) para controle de fluxo, validação e proteção de requisições.
 
 ---
 
-## 🔐 Arquitetura de Middleware
+📌 Sobre o Projeto
 
-O projeto utiliza o conceito de **Middleware de Front-end** através do **Cloudflare Turnstile**. 
+A aplicação permite a consulta de endereços de forma dinâmica e segura. O grande diferencial técnico desta versão é a evolução da arquitetura, saindo de uma validação apenas visual no front-end para uma validação real no servidor utilizando middleware.
 
-Diferente de uma validação comum, o sistema intercepta a requisição do usuário antes que ela chegue à lógica de negócio (busca de CEP). O acesso ao buscador é condicionado à existência de um token de segurança válido, garantindo:
+Agora, todas as requisições passam por uma API intermediária desenvolvida em Node.js com Express, garantindo maior segurança e controle.
 
-* **Proteção contra Bots:** Bloqueio de automações antes do consumo da API.
-* **Integridade da Sessão:** Controle de acesso baseado em estado (Validado vs. Não-Validado).
-* **Otimização de Recursos:** Evita requisições desnecessárias a APIs externas e protege a cota de uso.
+O número do imóvel é capturado manualmente e integrado aos dados retornados pela API ViaCEP, simulando um fluxo real de sistemas como checkouts de e-commerce, sistemas ERP e cadastros empresariais.
 
 ---
 
-## 🚀 Funcionalidades
+🧠 Arquitetura da Aplicação
 
-* **Middleware de Segurança:** Validação obrigatória com Cloudflare Turnstile antes de liberar o acesso.
-* **Consumo de API REST:** Utilização de `fetch` assíncrono para busca de dados em tempo real.
-* **Persistência de Dados Local:** Integração do número residencial informado com os dados retornados pela API.
-* **Tratamento de Exceções:** Gestão de erros para CEPs inválidos, incompletos ou inexistentes.
-* **Interface Modern UI:** Design baseado em *Glassmorphism* (efeito de vidro) totalmente responsivo.
-* **Gestão de Estado:** Botão de limpeza inteligente que reseta inputs e remove os resultados do DOM.
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-* **HTML5**
-* **CSS3** (Variáveis, Flexbox e Efeitos de Glassmorphism)
-* **JavaScript (ES6+)** (Async/Await, Manipulação de DOM e Event Listeners)
-* **API REST** (ViaCEP)
-* **Cloudflare Turnstile** (Implementação de Middleware de segurança)
+Front-end
+   ↓
+Token (Cloudflare Turnstile)
+   ↓
+API Node.js (Express)
+   ↓
+Middleware de Validação
+   ↓
+API ViaCEP
 
 ---
 
-## 🔄 API Utilizada
+🔐 Middleware de Segurança (Back-end)
 
-* **ViaCEP**
-* **Endpoint:** `https://viacep.com.br/ws/{cep}/json/`
+O projeto implementa um middleware real no servidor, responsável por interceptar e validar todas as requisições antes de acessar a lógica principal. A validação do CAPTCHA é feita diretamente no back-end.
+
+✔️ Fluxo de Validação:
+
+1. O front-end gera um token do Turnstile
+2. O token é enviado para a API
+3. O middleware intercepta a requisição
+4. O servidor valida o token com o Cloudflare
+5. Apenas requisições válidas seguem para a busca de CEP
 
 ---
 
-## 📅 Atualizações Recentes
+🔥 Benefícios da Arquitetura
 
-* **09/04/2026**: Implementação da arquitetura de middleware no fluxo de entrada.
-* **Segurança**: Adicionada camada de proteção contra acessos automatizados (bots).
-* **UX/UI**: Refatoração do sistema de limpeza de campos e exibição dinâmica de resultados.
+- Segurança real (não pode ser burlado pelo front-end)
+- Proteção contra bots com validação server-side
+- Controle de requisições e uso da API
+- Arquitetura profissional (front + back separados)
+- Base pronta para SaaS e APIs mais robustas
 
 ---
-Desenvolvido por [Teodoro Luca](https://github.com/teodoroluca)
+
+🚀 Funcionalidades
+
+- Middleware de validação CAPTCHA (Back-end)
+- API própria com Node.js + Express
+- Consumo de API REST (ViaCEP)
+- Integração de dados (CEP + número do imóvel)
+- Tratamento de erros completo
+- Interface moderna (Glassmorphism)
+- Limpeza e reset de estado da aplicação
+
+---
+
+🛠️ Tecnologias Utilizadas
+
+Front-end: HTML5, CSS3 (Flexbox, Glassmorphism), JavaScript (ES6+, Async/Await, DOM)
+Back-end: Node.js, Express, Axios
+Segurança: Cloudflare Turnstile
+API Externa: ViaCEP
+
+---
+
+🔄 API Utilizada
+
+ViaCEP
+Endpoint: https://viacep.com.br/ws/{cep}/json/
+
+---
+
+📅 Atualizações Recentes
+
+10/04/2026
+
+- Implementação de middleware real no back-end
+- Criação de API própria com Node.js + Express
+- Validação segura do CAPTCHA no servidor
+- Refatoração do fluxo (front → API → ViaCEP)
+
+09/04/2026
+
+- Implementação inicial do CAPTCHA no front-end
+
+---
+
+👨‍💻 Autor
+
+Desenvolvido por "Teodoro Luca" (https://github.com/teodoroluca)
