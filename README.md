@@ -3,7 +3,7 @@
 <div align="center">
 
 <a href="https://teodoroluca.github.io/Requisicao_API/" target="_blank">
-  <img src="https://i.postimg.sc/HkM7p8mB/btn-cessar-projeto.png" alt="Acessar Projeto Ao Vivo" width="240">
+  ![Acessar Projeto Ao Vivo](https://img.shields.io/badge/Acessar%20Projeto%20Ao%20Vivo-success?style=for-the-badge&logo=googledataproc&logoColor=white)
 </a>
 
 <br><br>
