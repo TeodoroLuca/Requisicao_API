@@ -1,5 +1,7 @@
 # 🔗 Buscador de Endereço por CEP – Middleware & API REST
 
+> 🔗 **Acesse o projeto:** [Clique aqui para visualizar](LINK_DO_SEU_PROJETO)
+
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
@@ -7,9 +9,11 @@
 
 Projeto focado em demonstrar o consumo de APIs REST, manipulação avançada do DOM e a implementação de um **Middleware de Segurança real (Back-end)** para controle de fluxo, validação e proteção de requisições.
 
+---
+
 ## 📌 Sobre o Projeto
 
-A aplicação permite a consulta de endereços de forma dinâmica e segura. O grande diferencial técnico desta versão é a **evolução da arquitetura**: a validação deixou de ser meramente visual no front-end para se tornar uma regra de negócio real no servidor.
+A aplicação permite a consulta de endereços de forma dinâmica e segura. O diferencial técnico desta versão é a **evolução da arquitetura**: a validação deixou de ser meramente visual no front-end para se tornar uma regra de negócio real no servidor.
 
 Agora, todas as requisições passam por uma API intermediária desenvolvida em Node.js, garantindo que dados sensíveis e integrações externas (como o ViaCEP) só sejam acessados após a validação de segurança.
 
@@ -64,13 +68,6 @@ O projeto implementa um middleware no servidor que intercepta e valida todas as 
 | **Back-end** | Node.js, Express, Axios |
 | **Segurança** | Cloudflare Turnstile |
 | **API Externa** | ViaCEP |
-
----
-
-## 🔄 API Utilizada
-
-* **ViaCEP**
-* Endpoint: `https://viacep.com.br/ws/{cep}/json/`
 
 ---
 
