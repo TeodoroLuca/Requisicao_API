@@ -31,8 +31,8 @@ async function validarCaptcha(req, res, next) {
 
         next();
 
-    } catch {
-        res.status(500).json({ erro: 'Erro no captcha' });
+    } catch (error) {
+        return res.status(500).json({ erro: 'Erro ao validar captcha' });
     }
 }
 
@@ -60,7 +60,7 @@ app.post('/buscar-cep', validarCaptcha, async (req, res) => {
             uf: response.data.uf
         });
 
-    } catch {
+    } catch (error) {
         res.status(500).json({ erro: 'Erro ao buscar CEP' });
     }
 });
