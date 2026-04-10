@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscador de CEP</title>
 
     <link rel="stylesheet" href="style.css">
@@ -19,31 +20,30 @@
         <input type="text" id="nome" placeholder="Seu nome" required>
         <input type="email" id="email" placeholder="Seu e-mail" required>
 
-        <!-- SUA SITE KEY -->
         <div class="cf-turnstile" data-sitekey="0x4AAAAAAC3Y2IQ1RTJpOBUp"></div>
 
         <button type="submit">Entrar</button>
     </form>
 
-    <p id="mensagemErro" style="display:none;color:red;">
-        Resolva o captcha
-    </p>
+    <p id="mensagemErro">⚠️ Resolva o captcha</p>
 </div>
 
 <div id="buscador" class="glass-card" style="display:none;">
     <button id="btnVoltar">← Sair</button>
 
     <h1>BUSCADOR DE CEP</h1>
+    <h2>Digite somente números</h2>
 
     <input type="text" id="cep" placeholder="Digite o CEP" maxlength="8">
-    <input type="text" id="numero" placeholder="Número">
+    <input type="text" id="numero" placeholder="Número da residência">
 
-    <button id="btnBuscar">Buscar</button>
-    <button id="btnLimpar">Limpar</button>
+    <button id="btnBuscar">Buscar Endereço</button>
+    <button id="btnLimpar" class="btn-secundario">Limpar</button>
 
     <div id="resultado"></div>
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
