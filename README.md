@@ -2,8 +2,7 @@
 
 <div align="center">
 
-[**🌐 ACESSAR PROJETO**]
-(https://teodoroluca.github.io/Requisicao_API/)
+### 🚀 [Clique aqui para acessar o projeto](https://teodoroluca.github.io/Requisicao_API/)
 
 ![Status do Projeto](https://img.shields.io/badge/Status-Conclu%C3%ADdo-success)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow)
@@ -11,15 +10,13 @@
 
 </div>
 
-Projeto desenvolvido para demonstrar o consumo de **APIs REST**, manipulação do **DOM** e a aplicação do conceito de **Middleware no Front-end**, simulando uma camada de validação e controle de requisições.
-
 ---
 
 ## 📌 Sobre o Projeto
 
-A aplicação permite a consulta de endereços de forma dinâmica a partir de um CEP. 
+Projeto desenvolvido para demonstrar o consumo de **APIs REST**, manipulação do **DOM** e a aplicação do conceito de **Middleware no Front-end**, simulando uma camada de validação e controle de requisições.
 
-O diferencial técnico desta versão é a **arquitetura client-side** que simula um middleware: as regras de validação são aplicadas de forma isolada antes da requisição à API, garantindo integridade mesmo em um ambiente estático.
+A aplicação permite a consulta de endereços de forma dinâmica. O diferencial técnico desta versão é a **arquitetura client-side** que simula um middleware: as regras de validação são aplicadas de forma isolada antes da requisição à API, garantindo integridade mesmo em um ambiente estático.
 
 > [!IMPORTANT]
 > **Nota de Arquitetura:** Por ser hospedado no GitHub Pages, não há back-end. Toda a lógica de intercepção foi implementada utilizando apenas JavaScript no navegador, simulando o comportamento de servidores reais.
