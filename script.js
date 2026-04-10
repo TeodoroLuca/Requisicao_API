@@ -2,10 +2,10 @@
 document.getElementById('formValidade').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const token = document.querySelector('[name="cf-turnstile-response"]').value;
     const erro = document.getElementById('mensagemErro');
-
     erro.style.display = 'none';
+
+    const token = document.querySelector('[name="cf-turnstile-response"]').value;
 
     if (!token) {
         erro.style.display = 'block';
@@ -58,10 +58,10 @@ document.getElementById('btnBuscar').addEventListener('click', async () => {
         }
 
         resultado.innerHTML = `
-            <p>${data.logradouro}</p>
-            <p>${data.numero}</p>
-            <p>${data.bairro}</p>
-            <p>${data.cidade} - ${data.uf}</p>
+            <p><strong>Logradouro:</strong> ${data.logradouro}</p>
+            <p><strong>Número:</strong> ${data.numero}</p>
+            <p><strong>Bairro:</strong> ${data.bairro}</p>
+            <p><strong>Cidade:</strong> ${data.cidade} - ${data.uf}</p>
         `;
 
     } catch {
