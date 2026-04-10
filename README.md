@@ -1,62 +1,47 @@
 # 🔗 Buscador de Endereço por CEP – Middleware & API REST
 
-[![Acesse o Projeto](https://img.shields.io/badge/Acessar%20Projeto-Clique%20Aqui-blue?style=for-the-badge&logo=github)](https://teodoroluca.github.io/Requisicao_API/)
+![Status do Projeto](https://img.shields.io/badge/Status-Conclu%C3%ADdo-success)
+![Licença](https://img.shields.io/badge/License-MIT-blue)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow)
+![Hospedagem](https://img.shields.io/badge/Deploy-GitHub_Pages-orange)
 
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
-
-Projeto desenvolvido para demonstrar o consumo de APIs REST, manipulação avançada do DOM e a implementação de um **Middleware de Segurança real (Back-end)** para controle de fluxo, validação e proteção de requisições.
+Projeto desenvolvido para demonstrar o consumo de **APIs REST**, manipulação avançada do **DOM** e a aplicação do conceito de **Middleware no Front-end**, simulando uma camada de validação e controle de fluxo de dados.
 
 ---
 
 ## 📌 Sobre o Projeto
 
-A aplicação permite a consulta de endereços de forma dinâmica e segura. O diferencial técnico desta versão é a **evolução da arquitetura**: a validação deixou de ser meramente visual no front-end para se tornar uma regra de negócio real no servidor.
+A aplicação realiza a consulta dinâmica de endereços a partir de um CEP informado. 
 
-Agora, todas as requisições passam por uma API intermediária desenvolvida em Node.js, garantindo que dados sensíveis e integrações externas (como o ViaCEP) só sejam acessados após a validação de segurança.
+O diferencial técnico desta versão é a **arquitetura client-side**, que simula o comportamento de um middleware. Isso significa que as regras de validação e segurança são aplicadas de forma isolada antes que a requisição atinja o serviço externo, garantindo integridade mesmo em um ambiente estático.
 
-> **Fluxo de Dados:** O número do imóvel é capturado manualmente e integrado aos dados retornados pela API ViaCEP, simulando sistemas reais de e-commerce e ERPs empresariais.
+> [!IMPORTANT]
+> **Nota de Arquitetura:** Por ser hospedado no GitHub Pages, o projeto não possui back-end (Node.js/Python). Toda a lógica de intercepção foi implementada em JavaScript puro no navegador.
 
 ---
 
 ## 🧠 Arquitetura da Aplicação
 
-A comunicação segue o fluxo abaixo:
+Mesmo operando sem um servidor dedicado, a aplicação segue um fluxo lógico de sistemas corporativos:
 
-`Front-end` ➔ `Token (Cloudflare Turnstile)` ➔ `API Node.js (Express)` ➔ `Middleware de Validação` ➔ `API ViaCEP`
+**Fluxo de Dados:**
+`Interface (Front-end)` ➔ `Validação (Middleware Simulado)` ➔ `Requisição API` ➔ `Resposta (ViaCEP)`
 
----
-
-## 🔐 Middleware de Segurança (Back-end)
-
-O projeto implementa um middleware no servidor que intercepta e valida todas as requisições. A validação do CAPTCHA (Turnstile) é feita via **server-side**, o que impede que bots ou usuários mal-intencionados burlem a proteção através do console do navegador.
-
-### ✔️ Fluxo de Validação:
-1. O **Front-end** gera um token de desafio do Turnstile.
-2. O token é enviado no corpo (body) da requisição para a **API**.
-3. O **Middleware** intercepta a requisição e valida o token diretamente com os servidores da Cloudflare.
-4. Somente após a validação positiva, a requisição é liberada para buscar os dados no **ViaCEP**.
-
----
-
-## 🔥 Benefícios da Arquitetura
-
-* **Segurança Real:** Proteção impossível de ser burlada apenas modificando o front-end.
-* **Proteção Anti-Bot:** Validação robusta para evitar chamadas excessivas às APIs.
-* **Arquitetura Profissional:** Separação clara entre cliente (Front) e servidor (Back).
-* **Pronto para Escala:** Estrutura base utilizada em sistemas SaaS e APIs profissionais.
+### ⚙️ O Middleware (Simulado)
+O projeto implementa uma função que intercepta a execução antes da chamada à API. 
+* **O que é validado:** Verificação do CAPTCHA (Cloudflare Turnstile) e formato do CEP.
+* **Controle de Fluxo:** Bloqueio preventivo de requisições inválidas ou não autorizadas.
+* **Objetivo:** Simular como middlewares de back-end aplicam regras de negócio antes da execução da lógica principal.
 
 ---
 
 ## 🚀 Funcionalidades
 
-* **Back-end:** API própria com Node.js + Express.
-* **Segurança:** Middleware de validação CAPTCHA (Server-side).
-* **Integração:** Consumo de API REST (ViaCEP).
-* **UX/UI:** Interface moderna com estilo **Glassmorphism**.
-* **Resiliência:** Tratamento de erros completo e limpeza automática de estado.
+- [x] **Consulta de CEP:** Integração em tempo real com a API ViaCEP.
+- [x] **Middleware de Validação:** Camada de lógica pré-requisição.
+- [x] **Segurança:** Integração com Cloudflare Turnstile para prevenção de bots.
+- [x] **Interface Moderna:** Design responsivo com estética *Glassmorphism*.
+- [x] **UX/UI:** Tratamento de erros amigável e campos autocompletáveis.
 
 ---
 
@@ -64,26 +49,25 @@ O projeto implementa um middleware no servidor que intercepta e valida todas as 
 
 | Camada | Tecnologias |
 | :--- | :--- |
-| **Front-end** | HTML5, CSS3 (Flexbox, Glassmorphism), JavaScript (ES6+, Async/Await) |
-| **Back-end** | Node.js, Express, Axios |
+| **Front-end** | HTML5, CSS3, JavaScript (ES6+) |
 | **Segurança** | Cloudflare Turnstile |
-| **API Externa** | ViaCEP |
+| **API Externa** | ViaCEP REST API |
 
 ---
 
-## 📅 Atualizações Recentes
+## 📅 Log de Atualizações
 
 ### **10/04/2026**
-* Implementação de middleware real no back-end.
-* Criação de API própria com Node.js + Express.
-* Validação segura do CAPTCHA no servidor.
-* Refatoração do fluxo (front → API → ViaCEP).
+- ✨ Implementação da arquitetura de middleware simulado no front-end.
+- 🏗️ Refatoração da lógica de validação para desacoplamento de código.
+- ⚡ Melhoria no controle de fluxo e tratamento de estados da UI.
 
 ### **09/04/2026**
-* Implementação inicial do CAPTCHA no front-end.
+- 🛡️ Implementação de camada de segurança com Cloudflare Turnstile.
 
 ---
 
 ## 👨‍💻 Autor
 
-Desenvolvido por **Teodoro Luca**.
+Desenvolvido por **Lucas Teodoro**.  
+
