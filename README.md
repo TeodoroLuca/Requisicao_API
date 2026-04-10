@@ -1,13 +1,13 @@
 # 🔗 Buscador de Endereço por CEP – Middleware & API REST
 
-> 🔗 **Acesse o projeto:** [Clique aqui para visualizar](LINK_DO_SEU_PROJETO)
+[![Acesse o Projeto](https://img.shields.io/badge/Acessar%20Projeto-Clique%20Aqui-blue?style=for-the-badge&logo=github)](https://seu-link-aqui.github.io/seu-repositorio/)
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
 
-Projeto focado em demonstrar o consumo de APIs REST, manipulação avançada do DOM e a implementação de um **Middleware de Segurança real (Back-end)** para controle de fluxo, validação e proteção de requisições.
+Projeto desenvolvido para demonstrar o consumo de APIs REST, manipulação avançada do DOM e a implementação de um **Middleware de Segurança real (Back-end)** para controle de fluxo, validação e proteção de requisições.
 
 ---
 
