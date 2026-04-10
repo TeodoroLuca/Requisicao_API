@@ -1,78 +1,67 @@
-// VALIDAR CAPTCHA
-document.getElementById('formValidade').addEventListener('submit', async (e) => {
+// 1. VALIDAÇÃO (FRONT-END)
+document.getElementById('formValidade').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const erro = document.getElementById('mensagemErro');
-    erro.style.display = 'none';
-
     const token = document.querySelector('[name="cf-turnstile-response"]').value;
+    const erro = document.getElementById('mensagemErro');
 
     if (!token) {
         erro.style.display = 'block';
         return;
     }
 
-    try {
-        const res = await fetch('http://localhost:3000/validar-captcha', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token })
-        });
+    erro.style.display = 'none';
 
-        if (!res.ok) throw new Error();
-
-        document.getElementById('paginaValidade').style.display = 'none';
-        document.getElementById('buscador').style.display = 'block';
-
-    } catch {
-        erro.style.display = 'block';
-    }
+    // Libera acesso
+    document.getElementById('paginaValidade').style.display = 'none';
+    document.getElementById('buscador').style.display = 'block';
 });
 
 
-// BUSCAR CEP
-document.getElementById('btnBuscar').addEventListener('click', async () => {
+// 2. BUSCAR CEP DIRETO NA API
+document.getElementById('btnBuscar').addEventListener('click', async function() {
     const cep = document.getElementById('cep').value.replace(/\D/g, '');
     const numero = document.getElementById('numero').value;
     const resultado = document.getElementById('resultado');
 
-    const token = document.querySelector('[name="cf-turnstile-response"]').value;
+    resultado.innerHTML = "";
 
     if (cep.length !== 8) {
-        resultado.innerHTML = "CEP inválido";
+        resultado.innerHTML = "<p style='color:red'>CEP inválido</p>";
         return;
     }
 
     try {
-        const res = await fetch('http://localhost:3000/buscar-cep', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cep, numero, token })
-        });
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const data = await response.json();
 
-        const data = await res.json();
-
-        if (!res.ok) {
-            resultado.innerHTML = data.erro;
+        if (data.erro) {
+            resultado.innerHTML = "<p style='color:red'>CEP não encontrado</p>";
             return;
         }
 
         resultado.innerHTML = `
             <p><strong>Logradouro:</strong> ${data.logradouro}</p>
-            <p><strong>Número:</strong> ${data.numero}</p>
+            <p><strong>Número:</strong> ${numero || 'S/N'}</p>
             <p><strong>Bairro:</strong> ${data.bairro}</p>
-            <p><strong>Cidade:</strong> ${data.cidade} - ${data.uf}</p>
+            <p><strong>Cidade:</strong> ${data.localidade} - ${data.uf}</p>
         `;
 
     } catch {
-        resultado.innerHTML = "Erro no servidor";
+        resultado.innerHTML = "<p style='color:red'>Erro ao buscar CEP</p>";
     }
 });
 
 
-// LIMPAR
-document.getElementById('btnLimpar').addEventListener('click', () => {
+// 3. LIMPAR
+document.getElementById('btnLimpar').addEventListener('click', function() {
     document.getElementById('cep').value = '';
     document.getElementById('numero').value = '';
     document.getElementById('resultado').innerHTML = '';
+});
+
+
+// 4. VOLTAR
+document.getElementById('btnVoltar').addEventListener('click', function() {
+    location.reload();
 });
