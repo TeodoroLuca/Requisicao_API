@@ -1,93 +1,96 @@
+// Aguarda o carregamento do DOM
 document.addEventListener("DOMContentLoaded", function () {
 
-// Estado global do captcha  
-let captchaValido = false;  
+    // Estado global do captcha
+    let captchaValido = false;
+    let turnstileToken = null;
 
-// ================================  
-// MIDDLEWARE  
-// ================================  
-// Função responsável por validar regras antes da requisição  
-function validarRequisicao(cep) {  
-    if (!captchaValido) {  
-        throw new Error("Valide o CAPTCHA antes de continuar.");  
-    }  
+    // ================================
+    // CALLBACK DO TURNSTILE
+    // ================================
+    window.onTurnstileSuccess = function (token) {
+        turnstileToken = token;
+        captchaValido = true;
+    };
 
-    if (!cep || cep.length !== 8) {  
-        throw new Error("CEP inválido. Digite 8 números.");  
-    }  
-}  
+    // ================================
+    // MIDDLEWARE
+    // ================================
+    function validarRequisicao(cep) {
+        if (!captchaValido || !turnstileToken) {
+            throw new Error("Valide o CAPTCHA antes de continuar.");
+        }
 
-// ================================  
-// 1. GERENCIAMENTO DE TELAS E VALIDAÇÃO  
-// ================================  
-document.getElementById('formValidade').addEventListener('submit', function(e) {  
-    e.preventDefault();  
+        if (!cep || cep.length !== 8) {
+            throw new Error("CEP inválido. Digite 8 números.");
+        }
+    }
 
-    // Pega o token do Cloudflare  
-    const captchaResponse = document.querySelector('[name="cf-turnstile-response"]')?.value;  
+    // ================================
+    // 1. VALIDAÇÃO / ENTRADA
+    // ================================
+    document.getElementById('formValidade').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-    if (!captchaResponse) {  
-        document.getElementById('mensagemErro').style.display = 'block';  
-    } else {  
-        captchaValido = true; // marca como validado  
+        if (!turnstileToken) {
+            document.getElementById('mensagemErro').style.display = 'block';
+            return;
+        }
 
-        document.getElementById('mensagemErro').style.display = 'none';  
-        document.getElementById('paginaValidade').style.display = 'none';  
-        document.getElementById('buscador').style.display = 'flex';  
-    }  
-});  
+        document.getElementById('mensagemErro').style.display = 'none';
+        document.getElementById('paginaValidade').style.display = 'none';
+        document.getElementById('buscador').style.display = 'flex';
+    });
 
-// ================================  
-// 2. LÓGICA DO BUSCADOR DE CEP  
-// ================================  
-document.getElementById('btnBuscar').addEventListener('click', async function() {  
-    const cep = document.getElementById('cep').value.replace(/\D/g, '');  
-    const numero = document.getElementById('numero').value;  
-    const resultadoDiv = document.getElementById('resultado');  
+    // ================================
+    // 2. BUSCADOR CEP
+    // ================================
+    document.getElementById('btnBuscar').addEventListener('click', async function() {
 
-    resultadoDiv.innerHTML = "";  
+        const cep = document.getElementById('cep').value.replace(/\D/g, '');
+        const numero = document.getElementById('numero').value;
+        const resultadoDiv = document.getElementById('resultado');
 
-    try {  
-        // ================================  
-        // APLICAÇÃO DO MIDDLEWARE  
-        // ================================  
-        validarRequisicao(cep);  
+        resultadoDiv.innerHTML = "";
 
-        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);  
-        const data = await response.json();  
+        try {
+            validarRequisicao(cep);
 
-        if (data.erro) {  
-            throw new Error("CEP não encontrado.");  
-        }  
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await response.json();
 
-        resultadoDiv.innerHTML = `  
-            <div style="text-align: left; margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">  
-                <p><strong>Logradouro:</strong> ${data.logradouro}</p>  
-                <p><strong>Número:</strong> ${numero || 'S/N'}</p>  
-                <p><strong>Bairro:</strong> ${data.bairro}</p>  
-                <p><strong>Cidade:</strong> ${data.localidade} - ${data.uf}</p>  
-            </div>  
-        `;  
+            if (data.erro) {
+                throw new Error("CEP não encontrado.");
+            }
 
-    } catch (error) {  
-        resultadoDiv.innerHTML = `<p style='color:#ff4d4d'>${error.message}</p>`;  
-    }  
-});  
+            resultadoDiv.innerHTML = `
+                <div style="text-align:left; margin-top:20px; padding:15px; background:rgba(255,255,255,0.1); border-radius:10px;">
+                    <p><strong>Logradouro:</strong> ${data.logradouro}</p>
+                    <p><strong>Número:</strong> ${numero || 'S/N'}</p>
+                    <p><strong>Bairro:</strong> ${data.bairro}</p>
+                    <p><strong>Cidade:</strong> ${data.localidade} - ${data.uf}</p>
+                </div>
+            `;
 
-// ================================  
-// 3. FUNÇÃO DO BOTÃO LIMPAR  
-// ================================  
-document.getElementById('btnLimpar').addEventListener('click', function() {  
-    document.getElementById('cep').value = "";  
-    document.getElementById('numero').value = "";  
-    document.getElementById('resultado').innerHTML = "";  
-});  
+        } catch (error) {
+            resultadoDiv.innerHTML = `<p style='color:#ff4d4d'>${error.message}</p>`;
+        }
+    });
 
-// ================================  
-// 4. BOTÃO VOLTAR / SAIR  
-// ================================  
-document.getElementById('btnVoltar').addEventListener('click', function() {  
-    location.reload();  
-});
+    // ================================
+    // 3. LIMPAR
+    // ================================
+    document.getElementById('btnLimpar').addEventListener('click', function() {
+        document.getElementById('cep').value = "";
+        document.getElementById('numero').value = "";
+        document.getElementById('resultado').innerHTML = "";
+    });
+
+    // ================================
+    // 4. VOLTAR
+    // ================================
+    document.getElementById('btnVoltar').addEventListener('click', function() {
+        location.reload();
+    });
 
 });
