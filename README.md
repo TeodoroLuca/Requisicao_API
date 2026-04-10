@@ -2,16 +2,18 @@
 
 <div align="center">
 
-### 🌐 [Acessar Projeto Ao Vivo](https://teodoroluca.github.io/Requisicao_API/)
+<a href="https://teodoroluca.github.io/Requisicao_API/" target="_blank">
+  <img src="https://i.postimg.sc/HkM7p8mB/btn-cessar-projeto.png" alt="Acessar Projeto Ao Vivo" width="240">
+</a>
 
-<br>
+<br><br>
 
-![Status](https://img.shields.io/badge/Status-Conclu%C3%ADdo-success?style=for-the-badge)
-![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
-![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
-![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white)
-![GitHub Pages](https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Conclu%C3%ADdo-success?style=flat-square)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=flat-square&logo=javascript&logoColor=%23F7DF1E)
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=flat-square&logo=css3&logoColor=white)
+![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?style=flat-square&logo=Cloudflare&logoColor=white)
+![GitHub Pages](https://img.shields.io/badge/github%20pages-121013?style=flat-square&logo=github&logoColor=white)
 
 </div>
 
