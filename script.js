@@ -1,9 +1,23 @@
-// Aguarda o carregamento do DOM
 document.addEventListener("DOMContentLoaded", function () {
 
-    // Estado global do captcha
+    // ================================
+    // ESTADO GLOBAL
+    // ================================
     let captchaValido = false;
     let turnstileToken = null;
+
+    const form = document.getElementById('formValidade');
+    const mensagemErro = document.getElementById('mensagemErro');
+    const paginaValidade = document.getElementById('paginaValidade');
+    const buscador = document.getElementById('buscador');
+
+    const btnBuscar = document.getElementById('btnBuscar');
+    const btnLimpar = document.getElementById('btnLimpar');
+    const btnVoltar = document.getElementById('btnVoltar');
+
+    const cepInput = document.getElementById('cep');
+    const numeroInput = document.getElementById('numero');
+    const resultadoDiv = document.getElementById('resultado');
 
     // ================================
     // CALLBACK DO TURNSTILE
@@ -11,6 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
     window.onTurnstileSuccess = function (token) {
         turnstileToken = token;
         captchaValido = true;
+
+        if (mensagemErro) mensagemErro.style.display = 'none';
     };
 
     // ================================
@@ -29,68 +45,87 @@ document.addEventListener("DOMContentLoaded", function () {
     // ================================
     // 1. VALIDAÇÃO / ENTRADA
     // ================================
-    document.getElementById('formValidade').addEventListener('submit', function(e) {
-        e.preventDefault();
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        if (!turnstileToken) {
-            document.getElementById('mensagemErro').style.display = 'block';
-            return;
-        }
+            if (!turnstileToken) {
+                mensagemErro.style.display = 'block';
+                return;
+            }
 
-        document.getElementById('mensagemErro').style.display = 'none';
-        document.getElementById('paginaValidade').style.display = 'none';
-        document.getElementById('buscador').style.display = 'flex';
-    });
+            mensagemErro.style.display = 'none';
+
+            paginaValidade.style.display = 'none';
+            buscador.style.display = 'flex';
+        });
+    }
 
     // ================================
     // 2. BUSCADOR CEP
     // ================================
-    document.getElementById('btnBuscar').addEventListener('click', async function() {
+    if (btnBuscar) {
+        btnBuscar.addEventListener('click', async function() {
 
-        const cep = document.getElementById('cep').value.replace(/\D/g, '');
-        const numero = document.getElementById('numero').value;
-        const resultadoDiv = document.getElementById('resultado');
+            const cep = cepInput.value.replace(/\D/g, '');
+            const numero = numeroInput.value;
 
-        resultadoDiv.innerHTML = "";
+            resultadoDiv.innerHTML = "";
 
-        try {
-            validarRequisicao(cep);
+            try {
+                validarRequisicao(cep);
 
-            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-            const data = await response.json();
+                btnBuscar.disabled = true;
+                btnBuscar.textContent = "Buscando...";
 
-            if (data.erro) {
-                throw new Error("CEP não encontrado.");
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+
+                if (!response.ok) {
+                    throw new Error("Erro na conexão com o servidor.");
+                }
+
+                const data = await response.json();
+
+                if (data.erro) {
+                    throw new Error("CEP não encontrado.");
+                }
+
+                resultadoDiv.innerHTML = `
+                    <div style="text-align:left; margin-top:20px; padding:15px; background:rgba(255,255,255,0.1); border-radius:10px;">
+                        <p><strong>Logradouro:</strong> ${data.logradouro || '-'}</p>
+                        <p><strong>Número:</strong> ${numero || 'S/N'}</p>
+                        <p><strong>Bairro:</strong> ${data.bairro || '-'}</p>
+                        <p><strong>Cidade:</strong> ${data.localidade} - ${data.uf}</p>
+                    </div>
+                `;
+
+            } catch (error) {
+                resultadoDiv.innerHTML = `<p style='color:#ff4d4d'>${error.message}</p>`;
+            } finally {
+                btnBuscar.disabled = false;
+                btnBuscar.textContent = "Buscar Endereço";
             }
-
-            resultadoDiv.innerHTML = `
-                <div style="text-align:left; margin-top:20px; padding:15px; background:rgba(255,255,255,0.1); border-radius:10px;">
-                    <p><strong>Logradouro:</strong> ${data.logradouro}</p>
-                    <p><strong>Número:</strong> ${numero || 'S/N'}</p>
-                    <p><strong>Bairro:</strong> ${data.bairro}</p>
-                    <p><strong>Cidade:</strong> ${data.localidade} - ${data.uf}</p>
-                </div>
-            `;
-
-        } catch (error) {
-            resultadoDiv.innerHTML = `<p style='color:#ff4d4d'>${error.message}</p>`;
-        }
-    });
+        });
+    }
 
     // ================================
     // 3. LIMPAR
     // ================================
-    document.getElementById('btnLimpar').addEventListener('click', function() {
-        document.getElementById('cep').value = "";
-        document.getElementById('numero').value = "";
-        document.getElementById('resultado').innerHTML = "";
-    });
+    if (btnLimpar) {
+        btnLimpar.addEventListener('click', function() {
+            cepInput.value = "";
+            numeroInput.value = "";
+            resultadoDiv.innerHTML = "";
+        });
+    }
 
     // ================================
     // 4. VOLTAR
     // ================================
-    document.getElementById('btnVoltar').addEventListener('click', function() {
-        location.reload();
-    });
+    if (btnVoltar) {
+        btnVoltar.addEventListener('click', function() {
+            location.reload();
+        });
+    }
 
 });
